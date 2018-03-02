@@ -1,0 +1,21 @@
+#!/bin/sh
+
+set -e;
+
+GID=${GID:-$(id -g app)}
+UID=${UID:-$(id -u app)}
+
+if [ "x$(echo $GID | grep -E ^[0-9]+$)" != "x" ] && [ "x$(echo $UID | grep -E ^[0-9]+$)" != "x" ]; then
+
+  if [ "x$(id -u app)" != "x$UID" ] || [ "x$(id -g app)" != "x$GID" ]; then
+    apk add --no-cache shadow
+
+    [ "x$(id -g app)" != "x$GID" ] && groupmod -g $GID -o app
+    [ "x$(id -u app)" != "x$UID" ] && usermod -u $UID -o app
+
+    apk del shadow
+  fi
+fi
+
+echo "UID : $(id -u app) | GID : $(id -g app)
+----------------------------------------------------"

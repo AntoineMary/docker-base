@@ -1,0 +1,20 @@
+#!/bin/sh
+
+set -e;
+
+echo "----------------------------------------------------
+
+ $APP_NAME - $APP_VERSION
+ Image build date : $(cat /assets/build_date)
+
+----------------------------------------------------
+
+ Brought to you by Antoine Mary
+ If you like my work consider buying me some coffee
+
+ ETH : 0xCd0E3cbcC9c432e3B451EBd5d86f240D2dd31fb7
+ XPR : rETegqsB8UoVb86WTSF11zFLB7ZrjTPmD1
+
+              paypal.me/AntoineeMary
+
+----------------------------------------------------"
