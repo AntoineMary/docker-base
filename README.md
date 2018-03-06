@@ -30,14 +30,14 @@ The purpose of this image is to give an already setup environment in which you j
 # How to use this image
 
 if you want to explore the image before using it :
-```
+```shell
 docker pull amary/base:{latest,3.7,3.6,3.5,3.4,3.3,3.2}
 docker run -it amary/base /bin/sh
 ```
 ** As it is a base no cmd have been setup **
 
 If you want to use it as a base you can do this way :
-```
+```dockerfile
 FROM alpine:latest as build
 # All your instruction
 # to build your app
