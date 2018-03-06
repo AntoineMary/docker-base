@@ -14,7 +14,9 @@ RUN date > /assets/build_date
 
 #####
 FROM scratch
-LABEL maintainer="Antoine Mary <antoinee.mary@gmail.com>"
+ONBUILD RUN date > /assets/build_date
+LABEL maintainer="Antoine Mary <antoinee.mary@gmail.com>" \
+      version="1.0.0"
 ENV APP_NAME="" \
     APP_VERSION="" \
     APP_LOCATION="" \
