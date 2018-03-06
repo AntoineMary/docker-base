@@ -1,9 +1,7 @@
 # Alpine base image
 [![Build Status][project-build-image]][project-build-link] [![Docker Build][docker-build-image]][docker-build-link] [![Docker Stars][docker-stars-image]][docker-stars-link] [![Docker Pulls][docker-pulls-image]][docker-pulls-link]
 
-[![MicroBadger Version][micro-version-image]][micro-version-links]
-[![MicroBadger Layers][micro-layers-image]][micro-layers-link]
-[![MicroBadger Size][micro-size-image]][micro-size-link]
+[![MicroBadger Version][micro-version-image]][micro-version-links] [![MicroBadger Layers][micro-layers-image]][micro-layers-link] [![MicroBadger Size][micro-size-image]][micro-size-link]
 
 This docker is a base image, it's not recommended to use as is.
 ___
@@ -16,7 +14,51 @@ ___
 
 # About this image
 
+This image will be update after each new push of [Alpine][alpine-link] but internal script will be update according to the label in the [Dockerfile][dockerfile]
+
+The purpose of this image is to give an already setup environment in which you just have to install missing packages for you application and add it into. ** Use this image as a base image **
+
+- It have been build from the official [Alpine][alpine-link]
+- Every package is up-to-date
+- It embed some scripts to easily change timezone/user for example at each startup
+- An entrypoint that give you the possibility to run scripts :
+  - At each startup system wide
+  - Just before the start of your application
+  - Just after the stop of you application
+  - Before the shutdown
+
 # How to use this image
+
+if you want to explore the image before using it :
+```
+docker pull amary/base:{latest,3.7,3.6,3.5,3.4,3.3,3.2}
+docker run -it amary/base /bin/sh
+```
+** As it is a base no cmd have been setup **
+
+If you want to use it as a base you can do this way :
+```
+FROM alpine:@ALPINE_VERSION@ as build
+# All your instruction
+# to build your app
+
+FROM amary/base
+ENV APP_NAME="My App" \
+    APP_VERSION="My App version" \
+    APP_LOCATION="/my/app/location" \
+    UID="100" \
+    GID="101" \
+    TZ="UTC" \
+    NAMED_TZ="0"
+
+COPY --from=build /my/app/location /my/app/location
+# RUN apk add ....
+# Additionnal instruction
+
+EXPOSE ....
+VOLUMES ....
+CMD["/my/app/location", "ARG1"]
+```
 
 # Changelog
 
@@ -25,12 +67,8 @@ ___
 [//]: # (External Websites)
 [alpine]: https://alpinelinux.org/
 [alpine-image]: https://raw.githubusercontent.com/docker-library/docs/781049d54b1bd9b26d7e8ad384a92f7e0dcb0894/alpine/logo.png
-
-[bridge-link]: https://hub.docker.com/r/amary/softether-vpn-bridge/
-[client-link]: https://hub.docker.com/r/amary/softether-vpn-client/
-[cmd-link]: https://hub.docker.com/r/amary/softether-vpn-cmd/
-
 [alpine-link]: https://hub.docker.com/_/alpine/
+[dockerfile]: https://github.com/AntoineMary/docker-base/blob/master/Dockerfile
 
 [//]: # (Badges)
 [project-build-image]: https://img.shields.io/docker/build/amary/base.svg
