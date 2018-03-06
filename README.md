@@ -38,7 +38,7 @@ docker run -it amary/base /bin/sh
 
 If you want to use it as a base you can do this way :
 ```
-FROM alpine:@ALPINE_VERSION@ as build
+FROM alpine:latest as build
 # All your instruction
 # to build your app
 
@@ -49,7 +49,7 @@ ENV APP_NAME="My App" \
     UID="100" \
     GID="101" \
     TZ="UTC" \
-    NAMED_TZ="0"
+    NAMED_TZ=""
 
 COPY --from=build /my/app/location /my/app/location
 # RUN apk add ....
@@ -57,10 +57,21 @@ COPY --from=build /my/app/location /my/app/location
 
 EXPOSE ....
 VOLUMES ....
-CMD["/my/app/location", "ARG1"]
+
+CMD["/my/app/location", "ARG1", "ARG2", ...]
 ```
 
+| ENV name | Description | Required | Accepted value | Default |
+|----------|-------------|----------|----------------|---------|
+| APP_NAME | The name of your application | yes | everything | "" |
+| APP_LOCATION | The path to you application binary | yes | a valid path | "" |
+| UID | User id desired to launch application | no | Number | 100 |
+| GID | Group id desired to launch application | no | Number | 101 |
+| TZ | Timezone inside docker | no | [PATH // POSIX // last line of zoneinfo file][tz-link]| UTC |
+| NAMED_TZ | Allow to use zoneinfo name for TZ| no | 1 | ""
+
 # Changelog
+v1.0.0 : Initial release
 
 [//]: # (==== Reference Part ====)
 
@@ -69,6 +80,7 @@ CMD["/my/app/location", "ARG1"]
 [alpine-image]: https://raw.githubusercontent.com/docker-library/docs/781049d54b1bd9b26d7e8ad384a92f7e0dcb0894/alpine/logo.png
 [alpine-link]: https://hub.docker.com/_/alpine/
 [dockerfile]: https://github.com/AntoineMary/docker-base/blob/master/Dockerfile
+[tz-link]:https://wiki.musl-libc.org/environment-variables.html#TZ
 
 [//]: # (Badges)
 [project-build-image]: https://img.shields.io/docker/build/amary/base.svg
